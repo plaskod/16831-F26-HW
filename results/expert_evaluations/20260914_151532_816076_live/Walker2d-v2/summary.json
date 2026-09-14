@@ -1,0 +1,15 @@
+{
+  "environment": "Walker2d-v2",
+  "episodes": 2,
+  "lengths": [
+    1000,
+    1000
+  ],
+  "returns": [
+    5466.93139824957,
+    5352.364540823664
+  ],
+  "mean_return": 5409.647969536617,
+  "population_std": 57.28342871295263,
+  "sample_std": 81.01100178508997
+}

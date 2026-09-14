@@ -1,0 +1,15 @@
+{
+  "environment": "Hopper-v2",
+  "episodes": 2,
+  "lengths": [
+    1000,
+    1000
+  ],
+  "returns": [
+    3770.721984267235,
+    3774.618592739105
+  ],
+  "mean_return": 3772.67028850317,
+  "population_std": 1.9483042359352112,
+  "sample_std": 2.755318274088526
+}

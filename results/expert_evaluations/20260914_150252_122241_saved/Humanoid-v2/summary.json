@@ -1,0 +1,15 @@
+{
+  "environment": "Humanoid-v2",
+  "episodes": 2,
+  "lengths": [
+    1000,
+    1000
+  ],
+  "returns": [
+    10323.53684335947,
+    10365.498659037054
+  ],
+  "mean_return": 10344.517751198262,
+  "population_std": 20.98090783879161,
+  "sample_std": 29.671484416519075
+}

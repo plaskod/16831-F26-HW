@@ -1,0 +1,288 @@
+[
+  {
+    "episode": 0,
+    "seed": 0,
+    "rewards": [
+      4.752080491820274,
+      4.752055985352382,
+      4.752065883662144,
+      4.752071049161058,
+      4.75207168309968,
+      4.751838915405515,
+      4.752267193759059,
+      4.752130178392652,
+      4.752194940943478,
+      4.751857706746275,
+      4.751980139487119,
+      4.751791552680534,
+      4.7517707864359195,
+      4.752017604231728,
+      4.751944657265622,
+      4.751896239321186
+    ],
+    "environment_done": true,
+    "time_limit_truncated": false,
+    "evaluator_cutoff": false,
+    "info": [
+      {
+        "reward_linvel": 0.0024265652969011203,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.002402058829009101,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0024119571387716475,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0024171226376858146,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0024177565763074636,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0021849888821422426,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0026132672356866836,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0024762518692790043,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0025410144201050136,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0022037802229025903,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0023262129637461526,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.002137626157161134,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.002116859912547053,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0023636777083548754,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.0022907307422496857,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.002242312797813793,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      }
+    ],
+    "length": 16,
+    "return": 76.03203500776462,
+    "cumulative_return": [
+      4.752080491820274,
+      9.504136477172656,
+      14.2562023608348,
+      19.00827340999586,
+      23.760345093095538,
+      28.512184008501052,
+      33.26445120226011,
+      38.01658138065277,
+      42.76877632159624,
+      47.52063402834251,
+      52.27261416782963,
+      57.02440572051017,
+      61.776176506946086,
+      66.52819411117781,
+      71.28013876844344,
+      76.03203500776462
+    ]
+  },
+  {
+    "episode": 1,
+    "seed": 1,
+    "rewards": [
+      4.768167854456819,
+      4.768140153220076,
+      4.768151688641757,
+      4.768156796804176,
+      4.7681566226091565,
+      4.767921609860041,
+      4.7683517649902605,
+      4.768208098572973,
+      4.768365960665991,
+      4.767935144130082,
+      4.768248407812553,
+      4.768049836803376,
+      4.768029324997954,
+      4.768280638091366,
+      4.768221440082441,
+      4.768156513523689
+    ],
+    "environment_done": true,
+    "time_limit_truncated": false,
+    "evaluator_cutoff": false,
+    "info": [
+      {
+        "reward_linvel": 0.018513927933446323,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.01848622669670235,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018497762118384737,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018502870280802677,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018502696085783445,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018267683336667975,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018697838466887745,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018554172049600172,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.01871203414261872,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018281217606708606,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018594481289180058,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.01839591028000362,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.01837539847458133,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018626711567993073,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018567513559068542,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      },
+      {
+        "reward_linvel": 0.018502587000315644,
+        "reward_quadctrl": -0.2503460734766272,
+        "reward_alive": 5.0,
+        "reward_impact": -0.0
+      }
+    ],
+    "length": 16,
+    "return": 76.29054185526272,
+    "cumulative_return": [
+      4.768167854456819,
+      9.536308007676894,
+      14.304459696318652,
+      19.07261649312283,
+      23.840773115731984,
+      28.608694725592024,
+      33.37704649058229,
+      38.14525458915526,
+      42.913620549821246,
+      47.681555693951324,
+      52.449804101763874,
+      57.21785393856725,
+      61.985883263565206,
+      66.75416390165657,
+      71.52238534173901,
+      76.2905418552627
+    ]
+  }
+]

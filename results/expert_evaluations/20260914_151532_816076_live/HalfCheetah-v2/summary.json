@@ -1,0 +1,15 @@
+{
+  "environment": "HalfCheetah-v2",
+  "episodes": 2,
+  "lengths": [
+    1000,
+    1000
+  ],
+  "returns": [
+    4095.54217281608,
+    4097.9976566868145
+  ],
+  "mean_return": 4096.769914751447,
+  "population_std": 1.2277419353672485,
+  "sample_std": 1.7362892960905547
+}

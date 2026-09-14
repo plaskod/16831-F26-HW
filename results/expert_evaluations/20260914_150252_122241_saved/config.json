@@ -1,0 +1,20 @@
+{
+  "source": "saved",
+  "environments": [
+    "Ant",
+    "Humanoid",
+    "Walker2d",
+    "Hopper",
+    "HalfCheetah"
+  ],
+  "episodes_per_environment": "all supplied (2)",
+  "max_steps": null,
+  "seed": null,
+  "policy": "Supplied deterministic get_action; no training",
+  "packages": {
+    "numpy": "1.25.2",
+    "gym": "0.25.1",
+    "torch": "1.12.1",
+    "mujoco-py": "2.1.2.14"
+  }
+}

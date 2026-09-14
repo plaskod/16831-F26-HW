@@ -1,0 +1,77 @@
+[
+  {
+    "environment": "Ant-v2",
+    "episodes": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "returns": [
+      4543.257456330808,
+      4715.7732351029545
+    ],
+    "mean_return": 4629.515345716882,
+    "population_std": 86.2578893860732,
+    "sample_std": 121.98707703146297
+  },
+  {
+    "environment": "Humanoid-v2",
+    "episodes": 2,
+    "lengths": [
+      16,
+      16
+    ],
+    "returns": [
+      76.10835257361136,
+      76.27078486139071
+    ],
+    "mean_return": 76.18956871750103,
+    "population_std": 0.08121614388967657,
+    "sample_std": 0.11485697217242538
+  },
+  {
+    "environment": "Walker2d-v2",
+    "episodes": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "returns": [
+      5217.479335284258,
+      5414.221681911672
+    ],
+    "mean_return": 5315.850508597965,
+    "population_std": 98.371173313707,
+    "sample_std": 139.11784744679872
+  },
+  {
+    "environment": "Hopper-v2",
+    "episodes": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "returns": [
+      3712.45485603795,
+      3716.358964172818
+    ],
+    "mean_return": 3714.4069101053838,
+    "population_std": 1.9520540674341191,
+    "sample_std": 2.7606213366508956
+  },
+  {
+    "environment": "HalfCheetah-v2",
+    "episodes": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "returns": [
+      4108.237408598732,
+      4258.469322478959
+    ],
+    "mean_return": 4183.3533655388455,
+    "population_std": 75.11595694011339,
+    "sample_std": 106.23000505534178
+  }
+]
