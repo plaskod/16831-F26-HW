@@ -1,0 +1,7 @@
+.venv/
+.local/
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints/
+hw1/data/
+.DS_Store
