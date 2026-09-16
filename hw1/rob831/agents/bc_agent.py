@@ -1,4 +1,4 @@
-from rob831.infrastructure.replay_buffer import ReplayBuffer
+from rob831.infrastructure.replay_buffer import ReplayBuffer, ActionChunkReplayBuffer
 from rob831.policies.MLP_policy import MLPPolicySL
 from .base_agent import BaseAgent
 
@@ -19,10 +19,14 @@ class BCAgent(BaseAgent):
             self.agent_params['size'],
             discrete=self.agent_params['discrete'],
             learning_rate=self.agent_params['learning_rate'],
+            action_chunk_size=self.agent_params.get('action_chunk_size', 1),
         )
 
         # replay buffer
-        self.replay_buffer = ReplayBuffer(self.agent_params['max_replay_buffer_size'])
+        horizon = self.agent_params.get('action_chunk_size', 1)
+        self.replay_buffer = (ReplayBuffer(self.agent_params['max_replay_buffer_size'])
+                              if horizon == 1 else ActionChunkReplayBuffer(
+                                  self.agent_params['max_replay_buffer_size'], horizon))
 
     def train(self, ob_no, ac_na, re_n, next_ob_no, terminal_n):
         # training a BC agent refers to updating its actor using

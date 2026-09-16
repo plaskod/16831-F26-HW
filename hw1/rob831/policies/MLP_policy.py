@@ -24,11 +24,15 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
                  learning_rate=1e-4,
                  training=True,
                  nn_baseline=False,
+                 action_chunk_size=1,
                  **kwargs
                  ):
         super().__init__(**kwargs)
 
         # init vars
+        if action_chunk_size < 1 or (discrete and action_chunk_size != 1):
+            raise ValueError("Action chunks require a positive horizon and continuous actions")
+        self.action_chunk_size = action_chunk_size
         self.ac_dim = ac_dim
         self.ob_dim = ob_dim
         self.n_layers = n_layers
@@ -54,7 +58,7 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
             self.logits_na = None
             self.mean_net = ptu.build_mlp(
                 input_size=self.ob_dim,
-                output_size=self.ac_dim,
+                output_size=self.ac_dim * self.action_chunk_size,
                 n_layers=self.n_layers, size=self.size,
             )
             self.mean_net.to(ptu.device)
@@ -84,6 +88,9 @@ class MLPPolicy(BasePolicy, nn.Module, metaclass=abc.ABCMeta):
             prediction = self(ptu.from_numpy(observation.astype(np.float32)))
             if self.discrete:
                 prediction = prediction.argmax(dim=-1)
+            elif self.action_chunk_size > 1:
+                # Replan on every call; never cache or execute future predictions.
+                prediction = prediction.reshape(-1, self.action_chunk_size, self.ac_dim)[:, 0]
         return ptu.to_numpy(prediction)
 
     # update/train this policy
@@ -119,8 +126,16 @@ class MLPPolicySL(MLPPolicy):
             targets = torch.as_tensor(actions, dtype=torch.long,
                                       device=observations.device).reshape(-1)
             loss = F.cross_entropy(predictions, targets)
-        else:
+        elif self.action_chunk_size == 1:
             loss = self.loss(predictions, ptu.from_numpy(actions))
+        else:
+            targets, mask = actions
+            targets, mask = ptu.from_numpy(targets), ptu.from_numpy(mask)
+            predictions = predictions.reshape(-1, self.action_chunk_size, self.ac_dim)
+            per_offset_mse = (predictions - targets).square().mean(dim=-1)
+            # All starting observations are retained. Missing tail labels have zero
+            # weight; each observation contributes its mean over valid offsets.
+            loss = ((per_offset_mse * mask).sum(dim=1) / mask.sum(dim=1)).mean()
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()

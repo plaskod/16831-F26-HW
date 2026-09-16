@@ -14,6 +14,7 @@ class BC_Trainer(object):
         #######################
 
         agent_params = {
+            'action_chunk_size': params.get('action_chunk_size', 1),
             'n_layers': params['n_layers'],
             'size': params['size'],
             'learning_rate': params['learning_rate'],
@@ -57,6 +58,8 @@ def main():
     parser.add_argument('--env_name', '-env', type=str, help='choices: Ant-v2, Humanoid-v2, Walker-v2, HalfCheetah-v2, Hopper-v2', required=True)
     parser.add_argument('--exp_name', '-exp', type=str, default='pick an experiment name', required=True)
     parser.add_argument('--do_dagger', action='store_true')
+    parser.add_argument('--action_chunk_size', type=int, default=1,
+                        help='Future-action supervision horizon; only the first action is executed')
     parser.add_argument('--ep_len', type=int, default=1000)
 
     parser.add_argument('--num_agent_train_steps_per_iter', type=int, default=1000)  # number of gradient steps for training policy (per iter in n_iter)
@@ -80,6 +83,10 @@ def main():
     parser.add_argument('--save_params', action='store_true')
     parser.add_argument('--seed', type=int, default=1)
     args = parser.parse_args()
+    if args.action_chunk_size < 1:
+        parser.error('--action_chunk_size must be positive')
+    if args.do_dagger and args.action_chunk_size > 1:
+        parser.error('Future-action supervision is offline BC only: DAgger labels are not expert trajectories')
 
     # convert args to dictionary
     params = vars(args)
