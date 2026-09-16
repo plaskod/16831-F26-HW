@@ -1,0 +1,23 @@
+# Table 2: matched behavior-cloning comparison
+
+| Environment | Expert mean ± std | BC mean ± std | BC / expert |
+|---|---:|---:|---:|
+| Ant-v2 | 4713.65 ± 12.20 | 4698.23 ± 88.54 | 99.67% |
+| Humanoid-v2 | 10344.52 ± 20.98 | 331.70 ± 85.00 | 3.21% |
+
+Both runs meet the requested 30% conditions. Hyperparameters are recorded in results.json and the LaTeX caption.
+
+Reproduce from the repository root:
+
+```bash
+bash results/bc_comparison/run.sh
+.venv/bin/python scripts/report_bc_comparison.py
+```
+
+These are one-seed results. Standard deviations measure variability across evaluation episodes, not across independently trained policies.
+The same hidden-layer sizes are used; input/output dimensions and therefore total parameter counts differ by task.
+
+## Event logs and checkpoints
+
+- `hw1/data/q1_table2_bc_Ant_L3_H64_U1000_seed1_Ant-v2_15-09-2026_19-40-22`
+- `hw1/data/q1_table2_bc_Humanoid_L3_H64_U1000_seed1_Humanoid-v2_15-09-2026_19-40-24`
