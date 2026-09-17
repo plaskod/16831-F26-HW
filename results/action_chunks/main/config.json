@@ -1,7 +1,6 @@
 {
   "envs": [
-    "Ant-v2",
-    "Humanoid-v2"
+    "Ant-v2"
   ],
   "horizons": [
     1,
@@ -17,18 +16,18 @@
   ],
   "updates": 1000,
   "train_batch_size": 100,
-  "eval_batch_size": 5000,
-  "min_rollouts": 5,
+  "eval_episodes": 20,
   "ep_len": 1000,
   "n_layers": 3,
   "size": 64,
   "learning_rate": 0.005,
-  "output_dir": "results/action_chunks/main",
+  "output_dir": "/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/results/action_chunks/main",
   "optimizer": "Adam",
   "loss": "per-observation mean MSE over valid future offsets",
   "boundary": "mask missing targets; no crossing terminal/path boundaries; retain all starts",
   "evaluation_seeds": "10000 + 1000 * training_seed + episode_index",
   "execution": "replan every step and execute only offset 0",
+  "initialization": "Hidden layers and current-action head weights/bias match K=1 per seed",
   "packages": {
     "torch": "1.12.1",
     "numpy": "1.25.2",
@@ -45,7 +44,7 @@
     "hw1/rob831/infrastructure/replay_buffer.py": "f5219c392fb0f4749dba643d1ce94b8fd3e611ab78d5685faa40cf0793827740",
     "hw1/rob831/infrastructure/rl_trainer.py": "b8ce49f767b0fbfaab8b9e99b777f4d8b6ef8e2df1f00fa391c20a494845a8c2",
     "hw1/rob831/infrastructure/utils.py": "1b3b46be435c0d7eddb9a211459ca0b4b5002f983b2bed3bd83c2104a9912bef",
-    "hw1/rob831/policies/MLP_policy.py": "8a32b2fded249903eae9a65cd7f8c8ac0905ec75636531e9f089ead3e3bff170",
+    "hw1/rob831/policies/MLP_policy.py": "104d41bd9233c13a66bf070e0b2ab472c1e54872939e1f7c59d9151d2501ca2c",
     "hw1/rob831/policies/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "hw1/rob831/policies/base_policy.py": "7382765365a38e3b8a2032b8ae4396086eab52a996490d9f897ea81431e08db9",
     "hw1/rob831/policies/loaded_gaussian_policy.py": "efc4153fae2a2a7341494f729229602fe3c2fa48ce4ba7ea94237aaf73716e57",

@@ -1,0 +1,67 @@
+[
+  {
+    "environment": "Humanoid-v2",
+    "horizon": 1,
+    "mean_return": 305.9763397118986,
+    "std_return": 51.610917333814974,
+    "seed_means": [
+      344.45529303904766,
+      251.92829173313217,
+      321.54543436351594
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": 0.0
+  },
+  {
+    "environment": "Humanoid-v2",
+    "horizon": 2,
+    "mean_return": 251.76004946305392,
+    "std_return": 28.903860610201225,
+    "seed_means": [
+      243.43518427052814,
+      227.06973197121619,
+      284.7752321474174
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": -54.2162902488447
+  },
+  {
+    "environment": "Humanoid-v2",
+    "horizon": 4,
+    "mean_return": 261.10616760083957,
+    "std_return": 36.18754079563511,
+    "seed_means": [
+      279.5081668670882,
+      289.50479623238067,
+      214.30553970304996
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": -44.87017211105905
+  },
+  {
+    "environment": "Humanoid-v2",
+    "horizon": 8,
+    "mean_return": 238.08318727426155,
+    "std_return": 10.908486546689845,
+    "seed_means": [
+      236.55814404068687,
+      246.45410559140578,
+      231.237312190692
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": -67.89315243763707
+  },
+  {
+    "environment": "Humanoid-v2",
+    "horizon": 16,
+    "mean_return": 285.4135916343578,
+    "std_return": 24.34648135878154,
+    "seed_means": [
+      291.1688730068728,
+      264.8536479862556,
+      300.21825390994496
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": -20.562748077540846
+  }
+]

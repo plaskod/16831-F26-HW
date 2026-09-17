@@ -75,3 +75,22 @@ hdiutil detach /private/tmp/rob831-mujoco211
 ```
 
 If you move the repository, recreate `.venv` at its new location and repeat the configuration. Paths in virtual environments and the native libraries are absolute.
+
+## Compile the homework PDF
+
+Tectonic 0.17.0 (native Apple Silicon) is installed at `~/.local/bin/tectonic`.
+Open a new Terminal, or run `source ~/.zprofile` in an existing Terminal.
+From the repository root:
+
+```bash
+cd hw1
+tectonic hw1_submission.tex
+```
+
+This writes `hw1/hw1_submission.pdf` (relative to the repository root).
+The first build downloads required LaTeX packages into the user cache; later builds reuse them.
+No Python environment activation is needed. The figures are loaded from `../results/`, so keep the repository layout when building.
+
+The official release archive checksum was verified against GitHub release metadata:
+`a3f1cac7c5678f01661a92212f58480ae3b0634115d880dbc59e2953ded45667`.
+PDF inspection tools are isolated in `.local/pdf-tools`; the robotics environment was not changed.

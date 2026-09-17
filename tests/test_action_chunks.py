@@ -66,6 +66,20 @@ class ChunkTests(unittest.TestCase):
         grad = policy.mean_net[0].weight.grad[:,0]
         torch.testing.assert_close(grad, torch.tensor([-1., -3., 0., 0.]))
 
+    def test_matched_current_action_initialization(self):
+        from scripts.run_action_chunk_experiment import match_current_action_initialization
+        models = []
+        for horizon in (1, 2, 4, 8, 16):
+            torch.manual_seed(5)
+            model = MLPPolicySL(2, 3, 3, 8, action_chunk_size=horizon)
+            rng_state = torch.random.get_rng_state().clone()
+            match_current_action_initialization(model, 5, 3, 8)
+            self.assertTrue(torch.equal(rng_state, torch.random.get_rng_state()))
+            models.append(model)
+        for model in models[1:]:
+            torch.testing.assert_close(models[0].mean_net[-2].weight, model.mean_net[-2].weight[:2], rtol=0, atol=0)
+            torch.testing.assert_close(models[0].mean_net[-2].bias, model.mean_net[-2].bias[:2], rtol=0, atol=0)
+
     def test_hidden_extractor_identical_across_horizons(self):
         models = []
         for horizon in (1,2,4,8,16):

@@ -1,7 +1,8 @@
-"""Plot measured chunk-horizon outcomes, keeping episode and seed variability distinct."""
+"""Generate Figure 1: horizon-averaged BC versus its K=1 baseline."""
 import argparse
 import json
 from pathlib import Path
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -9,87 +10,97 @@ import numpy as np
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('result_dir', type=Path)
-    args=parser.parse_args()
-    root=args.result_dir
-    config=json.loads((root/'config.json').read_text())
-    rows=[]
-    fig, axes=plt.subplots(1,len(config['envs']),figsize=(6*len(config['envs']),4.5),squeeze=False)
-    for ax,env in zip(axes[0],config['envs']):
-        means,stds=[],[]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('result_dirs', type=Path, nargs='*', default=[Path('results/action_chunks/main')])
+    parser.add_argument('--output-dir', type=Path)
+    args = parser.parse_args()
+    root = args.output_dir or args.result_dirs[0]
+    configs = [json.loads((folder / 'config.json').read_text()) for folder in args.result_dirs]
+    config = configs[0].copy()
+    sources = {}
+    for folder, other in zip(args.result_dirs, configs):
+        for key in ('horizons', 'seeds', 'updates', 'train_batch_size', 'eval_episodes',
+                    'ep_len', 'n_layers', 'size', 'learning_rate', 'optimizer', 'loss',
+                    'boundary', 'evaluation_seeds', 'execution', 'initialization'):
+            assert other[key] == config[key], f'Mismatched {key}: {folder}'
+        for env in other['envs']:
+            assert env not in sources, f'Duplicate environment: {env}'
+            sources[env] = folder
+    config['envs'] = list(sources)
+    root.mkdir(parents=True, exist_ok=True)
+    rows, conclusions = [], []
+    plt.rcParams.update({'font.size': 11})
+    fig, axes = plt.subplots(1, len(config['envs']), figsize=(5.5 * len(config['envs']), 4.1),
+                             squeeze=False, layout='constrained')
+    for ax, env in zip(axes[0], config['envs']):
+        points = []
         for k in config['horizons']:
-            runs=[json.loads((root/f'{env}_K{k}_seed{s}'/'result.json').read_text()) for s in config['seeds']]
-            # Equal weight for each trained policy even when episode lengths differ.
-            # This is the std of the equal-seed mixture of episode returns,
-            # not a standard error or confidence interval.
-            seed_means=np.array([r['mean_return'] for r in runs])
-            seed_vars=np.array([r['std_return']**2 for r in runs])
-            mean=float(seed_means.mean())
-            std=float(np.sqrt(np.mean(seed_vars+seed_means**2)-mean**2))
-            row=dict(environment=env,horizon=k,mean_return=mean,episode_mixture_std=std,
-                     mean_seed_return_std=float(seed_means.std()),seed_means=seed_means.tolist(),
-                     rollouts_per_seed=[r['rollout_count'] for r in runs])
-            rows.append(row); means.append(mean);stds.append(std)
-        ax.errorbar(config['horizons'],means,yerr=stds,fmt='o-',capsize=6,
-                    linewidth=2,markersize=7,elinewidth=1.6,color='#2563eb')
-        ax.set_xscale('log',base=2)
-        ax.set_xticks(config['horizons'],[str(k) for k in config['horizons']])
-        ax.set(title=env,xlabel='Prediction horizon K',ylabel='Episode return')
-        ax.set_ylim(bottom=min(0, min(np.array(means)-np.array(stds))*1.05))
-        ax.grid(axis='y',alpha=.2)
+            runs = [json.loads((sources[env] / f'{env}_K{k}_seed{s}' / 'result.json').read_text()) for s in config['seeds']]
+            returns = np.array([[e['episode_return'] for e in run['episodes']] for run in runs])
+            assert returns.shape == (len(config['seeds']), config['eval_episodes'])
+            row = dict(environment=env, horizon=k, mean_return=float(returns.mean()),
+                       std_return=float(returns.std(ddof=0)), seed_means=returns.mean(axis=1).tolist(),
+                       rollout_count=int(returns.size))
+            rows.append(row)
+            points.append(row)
+        baseline = next(r for r in points if r['horizon'] == 1)
+        for row in points:
+            row['difference_from_bc'] = row['mean_return'] - baseline['mean_return']
+        improved = [r['horizon'] for r in points if r['horizon'] > 1 and r['mean_return'] > baseline['mean_return']]
+        conclusions.append(f"{env}: " + (f"K={', '.join(map(str, improved))} exceeded the classic BC mean, providing limited descriptive support for the hypothesis; this is not a significance result."
+                           if improved else "No tested K>1 exceeded the classic BC mean; the hypothesis was not supported in this setup."))
+        means = [r['mean_return'] for r in points]
+        stds = [r['std_return'] for r in points]
+        ax.errorbar(config['horizons'], means, yerr=stds, fmt='o-', color='#2563a6',
+                    linewidth=1.8, markersize=4, capsize=1.5, elinewidth=.7,
+                    capthick=.7, ecolor='#7395bd', zorder=3)
+        ax.axhline(baseline['mean_return'], color='#aaaaaa', linestyle=':', linewidth=1)
+        ax.annotate('BC', xy=(1, baseline['mean_return']), xycoords=('axes fraction', 'data'),
+                    xytext=(5, 0), textcoords='offset points', va='center',
+                    color='#888888', fontsize=10, annotation_clip=False)
+        ax.set_xscale('log', base=2)
+        ax.set_xticks(config['horizons'], [str(k) for k in config['horizons']])
+        ax.set(title=env, xlabel='Prediction horizon K', ylabel='Return')
+        ax.set_ylim(bottom=min(0, float(np.min(np.array(means) - np.array(stds))) * 1.05))
+        ax.grid(axis='y', alpha=.12)
         ax.spines[['top', 'right']].set_visible(False)
-    fig.suptitle(f"Final BC performance after {config['updates']:,} updates: mean ± 1 std", fontsize=13)
-    fig.tight_layout()
-    fig.savefig(root/'figure1.png',dpi=180)
-    fig.savefig(root/'figure1.svg')
+    fig.savefig(root / 'figure1.png', dpi=200)
+    fig.savefig(root / 'figure1.svg')
+    svg = root / 'figure1.svg'
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines()) + '\n')
     plt.close(fig)
-    (root/'aggregate.json').write_text(json.dumps(rows,indent=2)+'\n')
-    lines=['# Future-action supervision experiment','',
-           '| Environment | K | Mean return | Episode std, equal seed weight | Seed means | Rollouts per seed |',
-           '|---|---:|---:|---:|---|---|']
-    conclusions=[]
-    for env in config['envs']:
-        group=[r for r in rows if r['environment']==env]
-        baseline=next(r for r in group if r['horizon']==1)
-        for r in group:
-            lines.append(f"| {env} | {r['horizon']} | {r['mean_return']:.2f} | {r['episode_mixture_std']:.2f} | {', '.join(f'{x:.2f}' for x in r['seed_means'])} | {r['rollouts_per_seed']} |")
-        better=[r['horizon'] for r in group if 1<r['horizon']<=8 and r['mean_return']>baseline['mean_return']]
-        conclusions.append(f"{env}: " + (f"horizon(s) {better} exceeded the K=1 aggregate mean." if better else "none of K=2,4,8 exceeded the K=1 aggregate mean."))
+    (root / 'aggregate.json').write_text(json.dumps(rows, indent=2) + '\n')
+    lines = ['# Horizon-averaged BC experiment', '',
+             '| Environment | K | Mean return | Std | Difference from classic BC |',
+             '|---|---:|---:|---:|---:|']
+    for row in rows:
+        lines.append(f"| {row['environment']} | {row['horizon']} | {row['mean_return']:.2f} | {row['std_return']:.2f} | {row['difference_from_bc']:+.2f} |")
     lines += ['', *conclusions, '',
-              f"These are descriptive results from {len(config['seeds'])} training seeds, not a statistical significance test.",
-              'Error bars are the population std of episode returns under an equal-weight mixture of seeds:',
-              'mean = mean(seed_means); variance = mean(seed_variances + seed_means^2) - mean^2.',
-              'This avoids overweighting a seed merely because its failed episodes are shorter.',
-              'The figure shows final aggregate means and standard-deviation error bars only; seed means remain in the table.',
-              'See aggregate.json for separate standard deviations of the seed means.']
-    (root/'results.md').write_text('\n'.join(lines)+'\n')
-    moderate_improvements = [r for r in rows if 1 < r['horizon'] <= 8 and r['mean_return'] >
-                             next(b['mean_return'] for b in rows if b['environment']==r['environment'] and b['horizon']==1)]
-    interpretation = ('There is descriptive evidence of moderate-horizon benefit in some conditions, but not proof of the proposed mechanism.'
-                      if moderate_improvements else
-                      'The hypothesized moderate-horizon benefit was not supported under this training budget.')
-    outcome=(' '.join(conclusions) + ' ' + interpretation).replace('K=', r'$K$=')
-    caption=(r'Future-action prediction as auxiliary supervision for closed-loop BC on Ant-v2 and Humanoid-v2. '
-             r'Hypothesis: moderate prediction horizons improve imitation, while large horizons may degrade it. '
-             r'We vary only the action-prediction horizon $K\in\{1,2,4,8,16\}$; every step executes only '
-             r'the first prediction and replans from the new observation. All conditions use the same two expert '
-             f"trajectories (2,000 starting observations), {config['n_layers']} hidden layers of {config['size']} tanh units, Adam with learning rate "
-             f"{config['learning_rate']}, {config['updates']} updates, minibatches of {config['train_batch_size']}, and training seeds {config['seeds']}. Missing future targets are masked "
-             r'at episode boundaries; the output layer grows with $K$. Each trained policy is evaluated on at least '
-             f"{config['min_rollouts']} complete rollouts and {config['eval_batch_size']} steps, with a {config['ep_len']}-step episode limit and matched reset-seed "
-             r'schedules across horizons. Blue points and error bars show mean and population standard deviation '
-             r'of episode returns with equal weight per training seed after the final training update. '
-             + outcome + r' These limited-seed observations do not establish statistical significance or isolate '
-             r'representation quality from output-head size and optimization effects.')
-    # Relative to the main report in hw1/.
-    relative='../results/action_chunks/'+root.name+'/figure1.png'
-    tex='\n'.join([r'\begin{figure}[htbp]',r'  \centering',
-                   r'  \includegraphics[width=\linewidth]{'+relative+'}',
-                   r'  \caption{'+caption+'}',r'  \label{fig:p4}',r'\end{figure}'])
-    (root/'figure1.tex').write_text(tex+'\n')
+              f"Each condition contains {len(config['seeds'])} independently trained policies, each evaluated on {config['eval_episodes']} matched reset seeds.",
+              'The mean and population std pool the equally sized sets of episode returns. Error bars are episode dispersion, not confidence intervals.',
+              'Hidden architecture, demonstrations, batch size, update count, optimizer, learning rate, initialization protocol, and evaluation protocol are fixed. Only K and its required output dimension vary.',
+              'This is an equal-update comparison, not an equal-compute comparison. No alternative loss weight is tuned.']
+    (root / 'results.md').write_text('\n'.join(lines) + '\n')
+    env_text = ', '.join(config['envs'])
+    horizons = ','.join(str(k) for k in config['horizons'])
+    caption = (f"Effect of action-prediction horizon on BC in {env_text}. "
+               r"Hypothesis: predicting future expert actions can improve imitation by providing temporal supervision. "
+               r"We vary $K\in\{" + horizons + r"\}$ and minimize MSE averaged over valid action offsets; "
+               r"$K=1$ is classic BC; dotted lines show its mean return in this sweep. Only the first predicted action is executed, with replanning every step. "
+               f"Within each task, all conditions use the same two demonstrations (2,000 starting observations), {config['n_layers']} hidden layers of {config['size']} tanh units, "
+               f"Adam with learning rate {config['learning_rate']}, {config['updates']} updates, and minibatches of {config['train_batch_size']}. "
+               r"Hidden layers and the current-action output are initialized identically per seed; missing tail targets are masked. "
+               f"Each of {len(config['seeds'])} training seeds is evaluated on the same {config['eval_episodes']} reset seeds across horizons, "
+               f"with an episode limit of {config['ep_len']} steps. Points and bars show mean and population standard deviation "
+               f"over {len(config['seeds']) * config['eval_episodes']} episode returns, not confidence intervals. "
+               + ' '.join(conclusions))
+    relative = '../results/action_chunks/' + root.name + '/figure1.png'
+    tex = '\n'.join([r'\begin{figure}[htbp]', r'  \centering',
+                     r'  \includegraphics[width=\linewidth]{' + relative + '}',
+                     r'  \caption{' + caption + '}', r'  \label{fig:p4}', r'\end{figure}'])
+    (root / 'figure1.tex').write_text(tex + '\n')
     print('\n'.join(lines))
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

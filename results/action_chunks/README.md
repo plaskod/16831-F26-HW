@@ -1,76 +1,63 @@
-# Future-action supervision, closed-loop execution
+# One homework experiment: does a longer prediction horizon help BC?
 
-Hypothesis: predicting a moderate number of future expert actions from the current observation improves BC, even when only the first action is executed. A second hypothesis predicts degradation at large horizons. Neither outcome is assumed by the analysis.
+Hypothesis: predicting several future expert actions from the current observation can improve imitation by providing temporal supervision, even when only the first prediction is executed.
 
-## What changed
+## Controlled comparison
 
-- `MLP_policy.py`: optional `action_chunk_size` (default 1). Continuous output width is K times the action dimension. `get_action` evaluates the network on every observation and returns only offset zero, with the same action shape as before. No cached actions or open-loop execution.
-- `replay_buffer.py`: a separate `ActionChunkReplayBuffer` builds trajectory-local targets and masks. It retains every starting observation and never crosses a terminal or file trajectory boundary. Existing one-step replay is unchanged.
-- `bc_agent.py`: selects the new buffer only when K > 1 and passes the horizon to the policy.
-- `run_hw1.py`: exposes `--action_chunk_size`. Rejects K > 1 with DAgger: relabeled learner trajectories do not contain consecutive expert-executed actions, so their future labels would answer a different scientific question.
+The sole varied hyperparameter is K in {1,2,4,8,16}. The loss is MSE averaged over action components and valid horizon offsets. K=1 is ordinary BC. There is no alternative weighted objective. At every environment step, the policy observes the new state, predicts a new chunk, and executes only offset zero.
 
-For a complete chunk the objective is mean squared error averaged over K offsets and action dimensions. At an episode tail, it averages only valid offsets for that observation, then averages observations in the batch. Invalid offsets are zero-filled and masked; no fabricated action labels contribute to loss. Thus all 2,000 starting observations remain available at every K. The hidden network is unchanged; the output layer necessarily grows. K=1 uses the original replay buffer, original output shape, and original MSE path.
+Default task: Ant-v2, one of the tasks used in Table 2. Each horizon uses:
 
-## Reproduce the complete experiment
+- The same two supplied trajectories: 2,000 starting observations.
+- Three hidden layers of 64 tanh units, linear action output.
+- Adam, learning rate 0.005; 1,000 gradient updates, minibatches of 100.
+- Training seeds 1,2,3, with identical minibatch sampling protocol.
+- Matched hidden initialization AND current-action output weights/biases for each seed.
+- Exactly 20 evaluation episodes per trained policy, maximum 1,000 steps each; reset seed `10000 + 1000 * training_seed + episode_index`.
+- No video logging and no training-data subsampling or new observation normalization.
 
-From the repository root with `.venv` activated:
+Chunks overlap, with one example per starting observation. Future labels never cross terminal or trajectory boundaries. Missing tail labels are masked and the loss averages the valid offsets for each observation, retaining all 2,000 observations. The final output layer must grow with K; hidden layers do not. This is equal-update, not equal-compute, training. The relative weight of the executed action within the averaged loss changes with K; that is part of the stated hypothesis, not an extra tuned parameter.
+
+## Run and plot
+
+From the repository root:
+
+```bash
+source .venv/bin/activate
+python scripts/run_action_chunk_experiment.py
+python scripts/plot_action_chunk_experiment.py
+```
+
+The completed results are already in `main/`. The runner refuses to overwrite existing results. To repeat, choose an unused output directory and pass it to both existing scripts:
 
 ```bash
 python scripts/run_action_chunk_experiment.py --output-dir results/action_chunks/repeat
 python scripts/plot_action_chunk_experiment.py results/action_chunks/repeat
 ```
 
-Use a new output directory each time. Defaults: Ant-v2 and Humanoid-v2; K=1,2,4,8,16; training seeds 1,2,3; three hidden layers of 64 tanh units; Adam lr=0.005; 1,000 updates; batch size 100. No expert-data subsampling or observation normalization is introduced.
+All five homework tasks remain supported via `--envs`, but the default homework figure uses only Ant to keep the experiment small. `--eval-episodes` controls the fixed episode count. The older step-budget evaluation options have been removed from this standalone runner; the original homework CLI retains its normal evaluation-batch interface.
 
-The runner trains using the homework's BCAgent and policy. It evaluates after training, replanning at every environment step, with at least 5 complete episodes and 5,000 transitions per trained policy. Episode lengths are capped at 1,000. Reset seeds are `10000 + 1000 * training_seed + episode_index`, with the same schedule across K. This explicit schedule differs from the earlier Table 2 evaluation, so K=1 returns need not equal Table 2 numbers despite the same learning algorithm. Each environment step consumes just one action vector.
+## Outputs and interpretation
 
-All five HW1 environments are supported, for example:
+- `main/figure1.png` and `.svg`: one clear final-performance curve with standard-deviation error bars; K=1 is labeled Classic BC.
+- `main/figure1.tex`: figure and caption for inclusion in the report (paths assume compilation from `hw1/`). It has not been inserted into the submission.
+- `main/results.md` and `aggregate.json`: measured results, differences from baseline, and per-seed means.
+- `main/config.json`: exact settings, versions, source hashes.
+- Per-condition directories: policy checkpoint, TensorBoard events, 1,000 training losses, and each evaluation episode's rewards and seed.
 
-```bash
-python scripts/run_action_chunk_experiment.py --envs Walker2d-v2 Hopper-v2 HalfCheetah-v2 --output-dir results/action_chunks/other_tasks
-```
+Each point pools 60 episode returns: 20 episodes for each of three training seeds. Equal episode counts give equal weight to seeds. Error bars show population standard deviation of episode returns, not uncertainty of the mean or a significance test. There are only three independent training runs per horizon.
 
-The original homework CLI also supports a single condition (run from `hw1`):
+The initial sweep and diagnostic follow-up were archived under `.local/action_chunks_diagnostics/`, along with their standalone scripts/tests. They are not part of this experiment. They taught us that small mean differences are sensitive to evaluation sampling and that changing loss weighting answers a different question. We therefore keep matched evaluation/initialization as controls, and return to the single original averaged-MSE hypothesis. No diagnostic loss sweep or compute-matching sweep is included.
 
-```bash
-python rob831/scripts/run_hw1.py \
-  --expert_policy_file rob831/policies/experts/Ant.pkl \
-  --expert_data rob831/expert_data/expert_data_Ant-v2.pkl \
-  --env_name Ant-v2 --exp_name bc_ant_K8 \
-  --action_chunk_size 8 --n_iter 1 --n_layers 3 --size 64 \
-  --learning_rate 0.005 --num_agent_train_steps_per_iter 1000 \
-  --train_batch_size 100 --eval_batch_size 5000 --ep_len 1000 \
-  --seed 1 --video_log_freq -1 --no_gpu --save_params
-```
+Run checks with `python -m unittest discover -s tests -v`. Tests cover ordinary BC, chunk targets/masks, boundary handling, sampling, loss gradients, first-action-only execution, and matched initialization.
 
-Use the dedicated runner for the matched evaluation-seed protocol and per-episode recording.
+## Matching Humanoid run
 
-## Outputs
-
-`main/` is the completed 30-run experiment:
-
-- `figure1.png` and `figure1.svg`: two-panel scientific plot.
-- `figure1.tex`: caption and inclusion snippet for `hw1/hw1_submission.tex`; it has not been inserted into the submission. Its image path assumes compilation from `hw1`.
-- `results.md` / `aggregate.json`: measured results, seed means, episode counts, and aggregation conventions.
-- `config.json`: sweep settings, dependency versions, source hashes.
-- Each environment/K/seed folder has `result.json` with all episode rewards, reset seeds, lengths, returns, training losses, dataset hash, and parameter count; `policy.pt`; and TensorBoard events.
+The same existing runner and plotter were used for Humanoid-v2. The Humanoid results are in `humanoid/` and have the same horizons, seeds, demonstrations per task, architecture, updates, loss, and evaluation protocol as Ant. The source hashes and all settings except environment/output directory match.
 
 ```bash
-python -m tensorboard.main --logdir results/action_chunks/main
+python scripts/run_action_chunk_experiment.py --envs Humanoid-v2 --output-dir results/action_chunks/humanoid_repeat
+python scripts/plot_action_chunk_experiment.py results/action_chunks/humanoid_repeat
 ```
 
-The plot uses equal training-seed weights: mu=mean(mu_s), sigma^2=mean(sigma_s^2+mu_s^2)-mu^2. Error bars show episode-return dispersion, not standard error or a confidence interval. Individual seed means are retained in the results table but are not plotted. Episodes from one policy are not independent training replications. No statistical significance claim is made.
-
-## Findings and limits
-
-Neither task's aggregate K=2,4,8 performance exceeded K=1. Longer horizons degraded aggregate performance in this experiment. Thus the proposed moderate-horizon benefit was not supported under this fixed budget; large-horizon degradation was observed. Some individual seeds improved at small horizons. These outcomes should not be generalized to all architectures, optimizers, data budgets, or environments.
-
-This tests future-action supervision without open-loop execution. It does not directly measure representation quality. Output-head size, optimization difficulty, and reducing the relative weight of the first-action loss as K grows remain possible explanations. Masking at trajectory tails changes the number of supervised offsets there. No hyperparameters were tuned separately for K.
-
-## Verification
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-11 tests passed, covering baseline learning, future-target boundary handling, replay capacity/alignment, masked-loss gradients, same hidden initialization, and first-action-only replanning. A separate check against the pre-change Git version verified bit-for-bit K=1 weights/actions after 10 updates. A K=4 run through the original CLI completed. K=8 training and interaction smoke checks passed for Hopper, Walker2d, and HalfCheetah; Ant/Humanoid were covered by the full sweep.
+`humanoid/figure1.png` is the plot and `humanoid/figure1.tex` is its standalone LaTeX caption. Humanoid does not show improvement over classic BC at any tested horizon under this protocol.

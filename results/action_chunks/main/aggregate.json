@@ -2,171 +2,66 @@
   {
     "environment": "Ant-v2",
     "horizon": 1,
-    "mean_return": 4156.99412902602,
-    "episode_mixture_std": 1160.686192003226,
-    "mean_seed_return_std": 382.49704822055753,
+    "mean_return": 4147.577285740687,
+    "std_return": 1129.6416794948316,
     "seed_means": [
-      4689.768626013203,
-      3971.659267087051,
-      3809.5544939778065
+      4656.015110366078,
+      4081.056152568185,
+      3705.6605942877977
     ],
-    "rollouts_per_seed": [
-      5,
-      6,
-      6
-    ]
+    "rollout_count": 60,
+    "difference_from_bc": 0.0
   },
   {
     "environment": "Ant-v2",
     "horizon": 2,
-    "mean_return": 4063.957672548728,
-    "episode_mixture_std": 1250.704582318806,
-    "mean_seed_return_std": 718.3840277236219,
+    "mean_return": 4347.957596021673,
+    "std_return": 722.3594134337318,
     "seed_means": [
-      4563.315371786797,
-      4580.499961434347,
-      3048.0576844250404
+      4469.116498110326,
+      4456.986264635749,
+      4117.770025318945
     ],
-    "rollouts_per_seed": [
-      5,
-      5,
-      5
-    ]
+    "rollout_count": 60,
+    "difference_from_bc": 200.38031028098612
   },
   {
     "environment": "Ant-v2",
     "horizon": 4,
-    "mean_return": 3713.2697322006093,
-    "episode_mixture_std": 1149.75156364354,
-    "mean_seed_return_std": 637.0968003422114,
+    "mean_return": 3110.7518881862316,
+    "std_return": 1572.665125574823,
     "seed_means": [
-      4328.140150114166,
-      3976.1758915405117,
-      2835.493154947149
+      3056.3158839532457,
+      4004.0482088940166,
+      2271.8915717114332
     ],
-    "rollouts_per_seed": [
-      5,
-      5,
-      5
-    ]
+    "rollout_count": 60,
+    "difference_from_bc": -1036.8253975544558
   },
   {
     "environment": "Ant-v2",
     "horizon": 8,
-    "mean_return": 1575.7189409089142,
-    "episode_mixture_std": 1177.9484013659587,
-    "mean_seed_return_std": 926.8350915361618,
+    "mean_return": 1058.8628143111234,
+    "std_return": 678.2990790544095,
     "seed_means": [
-      2872.075958865793,
-      1095.256834973618,
-      759.8240288873319
+      1489.6452812329603,
+      889.0216772591908,
+      797.9214844412196
     ],
-    "rollouts_per_seed": [
-      5,
-      5,
-      5
-    ]
+    "rollout_count": 60,
+    "difference_from_bc": -3088.7144714295637
   },
   {
     "environment": "Ant-v2",
     "horizon": 16,
-    "mean_return": 1003.6188910219735,
-    "episode_mixture_std": 465.9617378048289,
-    "mean_seed_return_std": 219.15402099032,
+    "mean_return": 1270.1036682986219,
+    "std_return": 976.6929888494877,
     "seed_means": [
-      1287.6776094072823,
-      754.2316687902743,
-      968.9473948683637
+      2209.640796367194,
+      746.8364664222906,
+      853.8337421063792
     ],
-    "rollouts_per_seed": [
-      5,
-      5,
-      5
-    ]
-  },
-  {
-    "environment": "Humanoid-v2",
-    "horizon": 1,
-    "mean_return": 309.84461182888583,
-    "episode_mixture_std": 61.44055092818077,
-    "mean_seed_return_std": 39.45990567535925,
-    "seed_means": [
-      344.11718266164655,
-      254.56819793543525,
-      330.8484548895757
-    ],
-    "rollouts_per_seed": [
-      77,
-      107,
-      80
-    ]
-  },
-  {
-    "environment": "Humanoid-v2",
-    "horizon": 2,
-    "mean_return": 295.986573531309,
-    "episode_mixture_std": 59.45076576874995,
-    "mean_seed_return_std": 8.430065773570517,
-    "seed_means": [
-      299.39284944168094,
-      284.38914546834354,
-      304.17772568390245
-    ],
-    "rollouts_per_seed": [
-      92,
-      89,
-      88
-    ]
-  },
-  {
-    "environment": "Humanoid-v2",
-    "horizon": 4,
-    "mean_return": 279.7136527854441,
-    "episode_mixture_std": 50.39939620211138,
-    "mean_seed_return_std": 37.791219454521176,
-    "seed_means": [
-      282.99868995383036,
-      231.87404771420705,
-      324.2682206882948
-    ],
-    "rollouts_per_seed": [
-      98,
-      107,
-      83
-    ]
-  },
-  {
-    "environment": "Humanoid-v2",
-    "horizon": 8,
-    "mean_return": 246.23405764568506,
-    "episode_mixture_std": 38.97828199617769,
-    "mean_seed_return_std": 5.942693921210171,
-    "seed_means": [
-      250.40867655480844,
-      250.46361721655634,
-      237.8298791656904
-    ],
-    "rollouts_per_seed": [
-      110,
-      109,
-      105
-    ]
-  },
-  {
-    "environment": "Humanoid-v2",
-    "horizon": 16,
-    "mean_return": 238.8430861464791,
-    "episode_mixture_std": 23.718046220964556,
-    "mean_seed_return_std": 17.203936531068678,
-    "seed_means": [
-      234.87994977361615,
-      261.6136733288884,
-      220.03563533693276
-    ],
-    "rollouts_per_seed": [
-      113,
-      105,
-      120
-    ]
+    "rollout_count": 60,
+    "difference_from_bc": -2877.4736174420655
   }
 ]

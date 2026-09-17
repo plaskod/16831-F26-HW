@@ -1,0 +1,67 @@
+[
+  {
+    "environment": "Hopper-v2",
+    "horizon": 1,
+    "mean_return": 789.252589827391,
+    "std_return": 218.28420387934202,
+    "seed_means": [
+      834.4626279412253,
+      994.9372497910836,
+      538.3578917498645
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": 0.0
+  },
+  {
+    "environment": "Hopper-v2",
+    "horizon": 2,
+    "mean_return": 841.9044402585739,
+    "std_return": 223.75472628200808,
+    "seed_means": [
+      768.1145238153827,
+      845.8815801627228,
+      911.7172167976165
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": 52.65185043118288
+  },
+  {
+    "environment": "Hopper-v2",
+    "horizon": 4,
+    "mean_return": 962.788537011456,
+    "std_return": 195.223581767958,
+    "seed_means": [
+      860.2719409984586,
+      847.9955899570523,
+      1180.098080078857
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": 173.53594718406498
+  },
+  {
+    "environment": "Hopper-v2",
+    "horizon": 8,
+    "mean_return": 582.6965566188178,
+    "std_return": 367.9641656305028,
+    "seed_means": [
+      1066.8664187069787,
+      246.20855775711243,
+      435.0146933923628
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": -206.55603320857324
+  },
+  {
+    "environment": "Hopper-v2",
+    "horizon": 16,
+    "mean_return": 289.06638475350036,
+    "std_return": 155.51565254821915,
+    "seed_means": [
+      290.61139930812027,
+      467.7776541045929,
+      108.8101008477882
+    ],
+    "rollout_count": 60,
+    "difference_from_bc": -500.1862050738907
+  }
+]

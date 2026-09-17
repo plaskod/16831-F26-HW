@@ -1,0 +1,371 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/resource_handle_pb2.py:18: DeprecationWarning: Call to deprecated create function FileDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  DESCRIPTOR = _descriptor.FileDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/resource_handle_pb2.py:36: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _descriptor.FieldDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/resource_handle_pb2.py:29: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _RESOURCEHANDLEPROTO = _descriptor.Descriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/tensor_shape_pb2.py:18: DeprecationWarning: Call to deprecated create function FileDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  DESCRIPTOR = _descriptor.FileDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/tensor_shape_pb2.py:36: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _descriptor.FieldDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/tensor_shape_pb2.py:29: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _TENSORSHAPEPROTO_DIM = _descriptor.Descriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/types_pb2.py:19: DeprecationWarning: Call to deprecated create function FileDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  DESCRIPTOR = _descriptor.FileDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/types_pb2.py:33: DeprecationWarning: Call to deprecated create function EnumValueDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _descriptor.EnumValueDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/types_pb2.py:27: DeprecationWarning: Call to deprecated create function EnumDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _DATATYPE = _descriptor.EnumDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/tensor_pb2.py:21: DeprecationWarning: Call to deprecated create function FileDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  DESCRIPTOR = _descriptor.FileDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/tensor_pb2.py:40: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _descriptor.FieldDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/tensor_pb2.py:33: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _TENSORPROTO = _descriptor.Descriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/summary_pb2.py:19: DeprecationWarning: Call to deprecated create function FileDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  DESCRIPTOR = _descriptor.FileDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/summary_pb2.py:38: DeprecationWarning: Call to deprecated create function FieldDescriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _descriptor.FieldDescriptor(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/proto/summary_pb2.py:31: DeprecationWarning: Call to deprecated create function Descriptor(). Note: Create unlinked descriptors is going to go away. Please use get/find descriptors from generated code or query the descriptor_pool.
+  _SUMMARYDESCRIPTION = _descriptor.Descriptor(
+########################
+logging outputs to  /Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/hw1/rob831/scripts/../../data/q2_figure2_dagger_Humanoid_L3_H64_U1000_seed1_Humanoid-v2_16-09-2026_19-46-32
+########################
+GPU not detected. Defaulting to CPU.
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/gym/envs/registration.py:593: UserWarning: [33mWARN: The environment Humanoid-v2 is out of date. You should consider upgrading to version `v4`.[0m
+  logger.warn(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/Cython/Distutils/old_build_ext.py:15: DeprecationWarning: dep_util is Deprecated. Use functions from setuptools instead.
+  from distutils.dep_util import newer, newer_group
+<frozen importlib._bootstrap>:283: DeprecationWarning: the load_module() method is deprecated and slated for removal in Python 3.12; use exec_module() instead
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/gym/envs/mujoco/mujoco_env.py:237: UserWarning: [33mWARN: This version of the mujoco environments depends on the mujoco-py bindings, which are no longer maintained and may stop working. Please upgrade to the v4 versions of the environments (which depend on the mujoco python bindings instead), unless you are trying to precisely replicate previous works).[0m
+  logger.warn(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/gym/core.py:329: DeprecationWarning: [33mWARN: Initializing wrapper in old step API which returns one bool instead of two. It is recommended to set `new_step_api=True` to use new step API. This will be the default behaviour in future.[0m
+  deprecation(
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/gym/wrappers/step_api_compatibility.py:39: DeprecationWarning: [33mWARN: Initializing environment in old step API which returns one bool instead of two. It is recommended to set `new_step_api=True` to use new step API. This will be the default behaviour in future.[0m
+  deprecation(
+Loading expert policy from... rob831/policies/experts/Humanoid.pkl
+obs (1, 376) (1, 376)
+Done restoring expert policy...
+
+
+********** Iteration 0 ************
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/gym/utils/passive_env_checker.py:241: DeprecationWarning: `np.bool8` is a deprecated alias for `np.bool_`.  (Deprecated NumPy 1.24)
+  if not isinstance(terminated, (bool, np.bool8)):
+Eval_AverageReturn : 331.6995544433594
+/Users/dap/Documents/cmu_courses/16 831 robot learning/HW1/.venv/lib/python3.10/site-packages/tensorboardX/summary.py:153: DeprecationWarning: Conversion of an array with ndim > 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+  scalar = float(scalar)
+Eval_StdReturn : 84.99740600585938
+Eval_MaxReturn : 575.5946655273438
+Eval_MinReturn : 146.16754150390625
+Eval_AverageEpLen : 63.41772151898734
+Train_AverageReturn : 10344.517578125
+Train_StdReturn : 20.9814453125
+Train_MaxReturn : 10365.4990234375
+Train_MinReturn : 10323.5361328125
+Train_AverageEpLen : 1000.0
+Train_EnvstepsSoFar : 0
+TimeSinceStart : 1.7892451286315918
+Training Loss : 0.10837957262992859
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 1 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 126.96322631835938
+Eval_StdReturn : 22.07113265991211
+Eval_MaxReturn : 185.54339599609375
+Eval_MinReturn : 88.61650085449219
+Eval_AverageEpLen : 30.01197604790419
+Train_AverageReturn : 338.37066650390625
+Train_StdReturn : 79.71893310546875
+Train_MaxReturn : 550.5307006835938
+Train_MinReturn : 218.42115783691406
+Train_AverageEpLen : 65.0625
+Train_EnvstepsSoFar : 1041
+TimeSinceStart : 3.5724880695343018
+Training Loss : 0.10788600146770477
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 2 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 76.1317367553711
+Eval_StdReturn : 0.13755176961421967
+Eval_MaxReturn : 76.47270202636719
+Eval_MinReturn : 75.7968521118164
+Eval_AverageEpLen : 16.0
+Train_AverageReturn : 132.22320556640625
+Train_StdReturn : 22.95305061340332
+Train_MaxReturn : 191.0336456298828
+Train_MinReturn : 85.10234069824219
+Train_AverageEpLen : 31.34375
+Train_EnvstepsSoFar : 2044
+TimeSinceStart : 5.147425889968872
+Training Loss : 0.0609452947974205
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 3 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 76.03421783447266
+Eval_StdReturn : 0.12868958711624146
+Eval_MaxReturn : 76.3602294921875
+Eval_MinReturn : 75.72721862792969
+Eval_AverageEpLen : 16.0
+Train_AverageReturn : 76.14392852783203
+Train_StdReturn : 0.13666483759880066
+Train_MaxReturn : 76.43877410888672
+Train_MinReturn : 75.90470886230469
+Train_AverageEpLen : 16.0
+Train_EnvstepsSoFar : 3052
+TimeSinceStart : 6.733253002166748
+Training Loss : 0.042114682495594025
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 4 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 75.9737777709961
+Eval_StdReturn : 0.12906523048877716
+Eval_MaxReturn : 76.28285217285156
+Eval_MinReturn : 75.64892578125
+Eval_AverageEpLen : 16.0
+Train_AverageReturn : 76.04707336425781
+Train_StdReturn : 0.15331560373306274
+Train_MaxReturn : 76.35752868652344
+Train_MinReturn : 75.74225616455078
+Train_AverageEpLen : 16.0
+Train_EnvstepsSoFar : 4060
+TimeSinceStart : 8.36380410194397
+Training Loss : 0.05113733932375908
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 5 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 75.9617691040039
+Eval_StdReturn : 0.1330127865076065
+Eval_MaxReturn : 76.24325561523438
+Eval_MinReturn : 75.65785217285156
+Eval_AverageEpLen : 16.0
+Train_AverageReturn : 75.98573303222656
+Train_StdReturn : 0.11390851438045502
+Train_MaxReturn : 76.22030639648438
+Train_MinReturn : 75.69599914550781
+Train_AverageEpLen : 16.0
+Train_EnvstepsSoFar : 5068
+TimeSinceStart : 10.008239030838013
+Training Loss : 0.036389950662851334
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 6 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 75.98681640625
+Eval_StdReturn : 0.13514608144760132
+Eval_MaxReturn : 76.294189453125
+Eval_MinReturn : 75.68359375
+Eval_AverageEpLen : 16.0
+Train_AverageReturn : 75.96603393554688
+Train_StdReturn : 0.13142558932304382
+Train_MaxReturn : 76.26231384277344
+Train_MinReturn : 75.69159698486328
+Train_AverageEpLen : 16.0
+Train_EnvstepsSoFar : 6076
+TimeSinceStart : 11.658237218856812
+Training Loss : 0.05233096703886986
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 7 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 76.0126953125
+Eval_StdReturn : 0.12775775790214539
+Eval_MaxReturn : 76.29077911376953
+Eval_MinReturn : 75.73611450195312
+Eval_AverageEpLen : 16.0
+Train_AverageReturn : 75.95928955078125
+Train_StdReturn : 0.12087789922952652
+Train_MaxReturn : 76.19756317138672
+Train_MinReturn : 75.7470703125
+Train_AverageEpLen : 16.0
+Train_EnvstepsSoFar : 7084
+TimeSinceStart : 13.315461158752441
+Training Loss : 0.019296646118164062
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 8 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 75.9998779296875
+Eval_StdReturn : 0.1295284628868103
+Eval_MaxReturn : 76.34815979003906
+Eval_MinReturn : 75.70758056640625
+Eval_AverageEpLen : 16.0
+Train_AverageReturn : 76.00540924072266
+Train_StdReturn : 0.13348788022994995
+Train_MaxReturn : 76.271728515625
+Train_MinReturn : 75.730224609375
+Train_AverageEpLen : 16.0
+Train_EnvstepsSoFar : 8092
+TimeSinceStart : 14.98693299293518
+Training Loss : 0.035451047122478485
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params
+
+
+********** Iteration 9 ************
+
+Collecting data to be used for training...
+
+Relabelling collected observations with labels from an expert policy...
+
+Training agent using sampled data from replay buffer...
+
+Beginning logging procedure...
+
+Collecting data for eval...
+Eval_AverageReturn : 75.97999572753906
+Eval_StdReturn : 0.1295512318611145
+Eval_MaxReturn : 76.26657104492188
+Eval_MinReturn : 75.6633071899414
+Eval_AverageEpLen : 16.0
+Train_AverageReturn : 76.00133514404297
+Train_StdReturn : 0.13317462801933289
+Train_MaxReturn : 76.27682495117188
+Train_MinReturn : 75.74876403808594
+Train_AverageEpLen : 16.0
+Train_EnvstepsSoFar : 9100
+TimeSinceStart : 16.6705219745636
+Training Loss : 0.021905219182372093
+Initial_DataCollection_AverageReturn : 10344.517578125
+Done logging...
+
+
+
+Saving agent params

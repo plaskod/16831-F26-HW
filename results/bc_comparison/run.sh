@@ -1,7 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 cd hw1
-for robot in Ant Humanoid; do
+robots=("$@")
+if [ "$#" -eq 0 ]; then robots=(Ant Hopper); fi
+for robot in "${robots[@]}"; do
   ../.venv/bin/python rob831/scripts/run_hw1.py \
     --expert_policy_file "rob831/policies/experts/${robot}.pkl" \
     --expert_data "rob831/expert_data/expert_data_${robot}-v2.pkl" \

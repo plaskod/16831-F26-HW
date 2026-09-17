@@ -1,4 +1,4 @@
-"""Compute HW1 Table 1 from the supplied demonstrations (no simulation needed)."""
+"""HW1 Table 1"""
 import argparse
 import json
 import pickle
@@ -55,23 +55,11 @@ def main():
         r1, r2 = row['returns']
         lines.append(f"| {row['environment']} | {row['lengths']} | {r1:.2f} | {r2:.2f} | {row['mean_return']:.2f} | {row['std_return']:.2f} | {row['thirty_percent_of_expert']:.2f} |")
     (args.output_dir / 'table1.md').write_text('\n'.join(lines) + '\n')
-    tex = [
-        r'\subsection{Part 2 (1.5 pt)}',
-        '% Population standard deviation (ddof=0); each supplied trajectory has 1000 steps.',
-        r'\begin{table}[!h]',
-        r'  \centering',
-        r'  \caption{Mean and standard deviation of expert return over two trajectories, for each environment.}',
-        r'  \begin{tabular}{cccccc}',
-        r'    \toprule',
-        '    Metric/Env & ' + ' & '.join(row['environment'] for row in rows) + r' \\',
-        r'    \midrule',
-        '    Mean  & ' + ' & '.join(f"{row['mean_return']:.2f}" for row in rows) + r' \\',
-        '    Std.  & ' + ' & '.join(f"{row['std_return']:.2f}" for row in rows) + r' \\',
-        r'    \bottomrule',
-        r'  \end{tabular}',
-        r'  \label{tab:p2}',
-        r'\end{table}',
-    ]
+    tex = ['% Population std over the two supplied trajectories; undiscounted returns.',
+           r'\begin{tabular}{lrr}', r'\hline', r'Environment & Mean return & Standard deviation \\', r'\hline']
+    for row in rows:
+        tex.append(f"{row['environment']} & {row['mean_return']:.2f} & {row['std_return']:.2f} " + r'\\')
+    tex.extend([r'\hline', r'\end{tabular}'])
     (args.output_dir / 'table1.tex').write_text('\n'.join(tex) + '\n')
     print('\n'.join(lines))
     print(f'\nSaved Markdown, JSON, and LaTeX to {args.output_dir}')

@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{microtype}
+\usepackage{hyperref}
 \usepackage[hidelinks]{hyperref}
 
 \newpagestyle{ruled}
@@ -21,7 +22,7 @@
     {\Large Assignment 1: Imitation Learning} \\
     \vspace{.25cm}
     \textbf{Andrew ID:} \texttt{dplaskow} \\
-    \textbf{Collaborators:} \texttt{gpt-6-astra}
+    \textbf{Collaborators:} \texttt{gpt-6 astra}
 \end{center}
 
 % \textit{Generative AI tools such as ChatGPT are viewed as collaborators in this course, acknowledge accordingly.}
@@ -29,6 +30,7 @@
 \section{Behavioral Cloning (10 pt)}
 
 \subsection{Part 2 (1.5 pt)}
+
 \begin{table}[!h]
   \centering
   \caption{Mean and standard deviation of expert return over two trajectories, for each environment.}
@@ -36,53 +38,135 @@
     \toprule
     Metric/Env & Ant-v2 & Humanoid-v2 & Walker2d-v2 & Hopper-v2 & HalfCheetah-v2 \\
     \midrule
-    Mean  & xxx & xxx & xxx & xxx & xxx \\
-    Std.  & xxx & xxx & xxx & xxx & xxx \\
+    Mean  & 4713.65 & 10344.52 & 5566.85 & 3772.67 & 4205.78 \\
+    Std.  & 12.20 & 20.98 & 9.24 & 1.95 & 83.04 \\
     \bottomrule
   \end{tabular}
   \label{tab:p2}
 \end{table}
 
+
 \subsection{Part 3 (5 pt)}
 \begin{table}[htbp]
   \centering
-  \caption{BC vs.\ expert return. List the environment you chose and the hyperparameters (network size, amount of data, training iterations, \texttt{eval\_batch\_size}, etc.) here.}
+
   \begin{tabular}{ccccc}
     \toprule
-    Env   & \multicolumn{2}{c}{Ant-v2} & \multicolumn{2}{c}{[Another Env]} \\
+    Env & \multicolumn{2}{c}{Ant-v2} & \multicolumn{2}{c}{Hopper-v2} \\
     \midrule
-    Metric & Mean  & Std.  & Mean  & Std. \\
-    Expert & xxx & xxx & xxx & xxx \\
-    BC    & xxx & xxx & xxx & xxx \\
+    Metric & Mean & Std. & Mean & Std. \\
+    Expert & 4713.65 & 12.20 & 3772.67 & 1.95 \\
+    BC & 4698.23 & 88.54 & 833.16 & 85.90 \\
     \bottomrule
   \end{tabular}
+    % \caption{BC vs.\ expert return. Both policies use three hidden layers of 64 tanh units (task-specific input/output dimensions), trained on two supplied expert trajectories (2,000 transitions) per environment. One BC iteration uses 1,000 Adam updates, learning rate 0.005, minibatches of 100, and MSE loss. Evaluation uses \texttt{eval\_batch\_size}=5,000 transitions and \texttt{ep\_len}=1,000, collecting complete episodes until at least 5,000 steps are reached (at least five rollouts; early termination can produce more). Mean and standard deviation over episode returns.}
+    \caption{BC vs.\ expert return on Ant-v2 and Hopper-v2.
+Both BC policies are trained on two supplied expert trajectories
+(2,000 transitions). Mean and standard deviation are computed over
+evaluation episode returns. Full architecture, optimization, and evaluation
+settings are given in Appendix~\ref{app:config}.}
   \label{tab:p3}
 \end{table}
 
+
 \subsection{Part 4 (3 pt)}
-\begin{figure}[!h]
+
+\begin{itemize}
+    \item \textbf{Hypothesis}: Inspired by action chunking, predicting several future
+    expert actions may help BC learn useful temporal structure and improve
+    performance, even when only the first predicted action is executed.
+
+    \item \textbf{Experiment setup}: On Ant-v2 and Hopper-v2, I varied the prediction
+    horizon $K\in\{1,2,4,8,16\}$. The policy predicts $K$ consecutive expert
+    actions and is trained using the mean MSE across these predictions.
+    At evaluation time, only the first predicted action is executed and a new
+    sequence is predicted at every timestep. All other training settings,
+    including the network architecture, were kept the same as in Part 3.
+    $K=1$ corresponds to standard BC.
+
+    \item \textbf{Hyperparameter}: Prediction horizon
+    $K\in\{1,2,4,8,16\}$. I chose powers of two to cover both short and
+    substantially longer prediction horizons while keeping the sweep small.
+
+    \item \textbf{Result}: Short prediction horizons gave modest improvements in
+    mean return in both environments. Ant-v2 improved slightly at $K=2$, while
+    Hopper-v2 achieved its highest mean return at $K=4$. However, performance
+    decreased substantially for $K=8$ and $K=16$ in both environments.
+    This suggests that short-horizon future-action prediction can be useful,
+    but predicting too far ahead may make the additional targets less useful
+    for learning the immediate action used for control.
+\end{itemize}
+
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.5\columnwidth]{figure_placeholder.pdf}
-  \caption{BC agent's performance vs.\ the value of ??? in the ??? environment. State the hyperparameter and a brief rationale for why you chose it.}
-  \label{fig:p4}
+  \includegraphics[width=0.95\linewidth]{figure1.png}
+  \caption{Behavioral cloning performance as a function of prediction
+  horizon $K$ on Ant-v2 and Hopper-v2. $K=1$ corresponds to standard BC.
+  Error bars show one standard deviation across evaluation rollouts.}
+  \label{fig:prediction-horizon}
 \end{figure}
 
+\newpage
 \subsection{Part 5 (0.5 pt)}
 Find one robotics paper from the last $\sim$3 years that uses imitation learning (i.e. behavior cloning) as the primary methodology. In a short paragraph (4-5 sentences): (i) cite it, (ii) say what robot task is being cloned and where the expert data comes from and (iii) name a main IL risk from this homework and whether that still applies to the paper's methodology. A few sentences is enough; this is not meant to be an extensive literature review.
 
 \textit{Write your paragraph here.}
+
+I chose \textit{Why Does Action Chunking Improve Behavioral
+Cloning Performance in Robotic Control?} by \cite{lazzati2026doesactionchunkingimprove}.
+They study behavior cloning on robotic manipulation tasks including Can, Square,
+Transport, and Tool Hang from Robomimic, using 200 proficient-human demonstrations
+per task collected with RoboTurk (with two operators for Transport).
+A main risk of imitation learning is compounding error: small policy mistakes can
+move the robot away from the demonstration distribution and lead to further errors.
+This risk still applies, but the paper argues that action chunking can reduce it by
+predicting actions from past observations.
+Interestingly, they show that much of this benefit can also be obtained without
+executing full action chunks, using delayed policies.
+
 
 
 \newpage
 \section{DAgger (5 pt)}
 
 \subsection{Part 2 (5 pt)}
+
 \begin{figure}[!h]
   \centering
-  \includegraphics[width=\columnwidth]{figure_placeholder.pdf}
-  \caption{DAgger learning curves (mean return vs.\ iteration, with error bars). Ant-v2 on the left and [Another Env] on the right. Include expert and BC performance as horizontal lines, and note network architecture, amount of data, etc.}
-  \label{fig:p5}
+  \includegraphics[width=\columnwidth]{figure2.png}
+  \caption{DAgger learning curves on Ant-v2 (left) and Hopper-v2 (right).
+  Iteration 0 is the initial BC policy trained on the two supplied expert
+  trajectories (2,000 transitions). At each subsequent DAgger iteration,
+  at least 1,000 learner transitions are collected, relabeled by the expert,
+  and added to the training data. Points show mean evaluation return and
+  error bars show one standard deviation across evaluation episodes.
+  Horizontal lines show the BC and expert returns. Training and evaluation
+  settings are given in Appendix~\ref{app:config}.}
+  \label{fig:dagger}
 \end{figure}
 
+\appendix
+\section{Experimental Configuration}
+\label{app:config}
+
+Unless otherwise stated, all BC and DAgger policies use an MLP with three
+hidden layers of 64 tanh units and task-specific input and output dimensions.
+Policies are trained with Adam using a learning rate of $0.005$, minibatches
+of 100, MSE action loss, and 1,000 gradient updates per training iteration.
+
+The initial replay buffer contains the two supplied expert trajectories
+(2,000 transitions) for each environment. For DAgger, each iteration after
+iteration 0 collects at least 1,000 transitions using the current learner,
+queries the expert for actions at those visited states, and adds the labeled
+transitions to the replay buffer before retraining.
+
+Evaluation uses \texttt{eval\_batch\_size}=5,000 and
+\texttt{ep\_len}=1,000. Complete episodes are collected until at least
+5,000 environment steps have been obtained, resulting in at least five
+evaluation rollouts. Reported error bars are one standard deviation over
+episode returns.
+
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
 
 \end{document}

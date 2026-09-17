@@ -1,0 +1,53 @@
+{
+  "envs": [
+    "Hopper-v2"
+  ],
+  "horizons": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "updates": 1000,
+  "train_batch_size": 100,
+  "eval_episodes": 20,
+  "ep_len": 1000,
+  "n_layers": 3,
+  "size": 64,
+  "learning_rate": 0.005,
+  "output_dir": "results/action_chunks/hopper",
+  "optimizer": "Adam",
+  "loss": "per-observation mean MSE over valid future offsets",
+  "boundary": "mask missing targets; no crossing terminal/path boundaries; retain all starts",
+  "evaluation_seeds": "10000 + 1000 * training_seed + episode_index",
+  "execution": "replan every step and execute only offset 0",
+  "initialization": "Hidden layers and current-action head weights/bias match K=1 per seed",
+  "packages": {
+    "torch": "1.12.1",
+    "numpy": "1.25.2",
+    "gym": "0.25.1",
+    "mujoco-py": "2.1.2.14"
+  },
+  "source_sha256": {
+    "hw1/rob831/agents/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "hw1/rob831/agents/base_agent.py": "3587ec5ad382e644fcdded71dfccb9f8fe9fa6e261cebb4fb5fc60a0221e9668",
+    "hw1/rob831/agents/bc_agent.py": "c1a3875f91c1e58efa148bcdf91623230bfa68db3b9309803026a15abcbe2204",
+    "hw1/rob831/infrastructure/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "hw1/rob831/infrastructure/logger.py": "a45c9bc6d6d444564b84395f826820fab8a6e5f42ddae17b253a2a01bd5d1d73",
+    "hw1/rob831/infrastructure/pytorch_util.py": "de1953029e699459152385cfd8524105228082b14912ef5556228aeaf4ff665d",
+    "hw1/rob831/infrastructure/replay_buffer.py": "f5219c392fb0f4749dba643d1ce94b8fd3e611ab78d5685faa40cf0793827740",
+    "hw1/rob831/infrastructure/rl_trainer.py": "b8ce49f767b0fbfaab8b9e99b777f4d8b6ef8e2df1f00fa391c20a494845a8c2",
+    "hw1/rob831/infrastructure/utils.py": "1b3b46be435c0d7eddb9a211459ca0b4b5002f983b2bed3bd83c2104a9912bef",
+    "hw1/rob831/policies/MLP_policy.py": "104d41bd9233c13a66bf070e0b2ab472c1e54872939e1f7c59d9151d2501ca2c",
+    "hw1/rob831/policies/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "hw1/rob831/policies/base_policy.py": "7382765365a38e3b8a2032b8ae4396086eab52a996490d9f897ea81431e08db9",
+    "hw1/rob831/policies/loaded_gaussian_policy.py": "efc4153fae2a2a7341494f729229602fe3c2fa48ce4ba7ea94237aaf73716e57",
+    "hw1/rob831/scripts/run_hw1.py": "7ba898fb3c41b80e6c0572b6070327d04106cbc49aee0e313e81af59e41f0837"
+  }
+}

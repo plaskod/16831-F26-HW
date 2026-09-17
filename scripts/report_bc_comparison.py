@@ -14,7 +14,7 @@ OUTPUT = ROOT / 'results/bc_comparison'
 
 def main():
     rows = []
-    for robot in ('Ant', 'Humanoid'):
+    for robot in ('Ant', 'Hopper'):
         env = f'{robot}-v2'
         candidates = sorted((ROOT / 'hw1/data').glob(f'q1_table2_bc_{robot}_L3_H64_U1000_seed1_*'), key=lambda p: p.stat().st_mtime)
         if not candidates:
@@ -57,7 +57,7 @@ def main():
     a, h = rows
     tex = [r'\subsection{Part 3 (5 pt)}', r'\begin{table}[htbp]', r'  \centering',
            '  \\caption{' + caption + '}', r'  \begin{tabular}{ccccc}', r'    \toprule',
-           r'    Env & \multicolumn{2}{c}{Ant-v2} & \multicolumn{2}{c}{Humanoid-v2} \\',
+           r'    Env & \multicolumn{2}{c}{Ant-v2} & \multicolumn{2}{c}{Hopper-v2} \\',
            r'    \midrule', r'    Metric & Mean & Std. & Mean & Std. \\',
            f"    Expert & {a['expert_mean']:.2f} & {a['expert_std']:.2f} & {h['expert_mean']:.2f} & {h['expert_std']:.2f} " + r'\\',
            f"    BC & {a['bc_mean']:.2f} & {a['bc_std']:.2f} & {h['bc_mean']:.2f} & {h['bc_std']:.2f} " + r'\\',
@@ -72,7 +72,10 @@ def main():
                   '', 'Reproduce from the repository root:', '', '```bash',
                   'bash results/bc_comparison/run.sh', '.venv/bin/python scripts/report_bc_comparison.py', '```', '',
                   'These are one-seed results. Standard deviations measure variability across evaluation episodes, not across independently trained policies.',
-                  'The same hidden-layer sizes are used; input/output dimensions and therefore total parameter counts differ by task.', '', '## Event logs and checkpoints', ''])
+                  'The same hidden-layer sizes are used; input/output dimensions and therefore total parameter counts differ by task.',
+                  'Hopper was selected first: five live expert episodes averaged 3716.14 ± 2.30 versus 3772.67 in saved demonstrations.',
+                  'Expert check: results/dagger_comparison/expert_check_Hopper/. Walker2d and HalfCheetah were not needed.',
+                  'To rerun only Hopper while preserving Ant: bash results/bc_comparison/run.sh Hopper', '', '## Event logs and checkpoints', ''])
     lines.extend(f"- `{row['logdir']}`" for row in rows)
     (OUTPUT / 'README.md').write_text('\n'.join(lines) + '\n')
     print('\n'.join(lines))

@@ -4,11 +4,11 @@
   \caption{BC vs.\ expert return. Both policies use three hidden layers of 64 tanh units (task-specific input/output dimensions), trained on two supplied expert trajectories (2,000 transitions) per environment. One BC iteration uses 1,000 Adam updates, learning rate 0.005, minibatches of 100, and MSE loss; seed 1, CPU. Evaluation uses \texttt{eval\_batch\_size}=5,000 transitions and \texttt{ep\_len}=1,000, collecting complete episodes until at least 5,000 steps are reached (at least five rollouts; early termination can produce more). Mean and population standard deviation are over episode returns, not training seeds. Expert statistics use the two supplied demonstrations. Video logging is disabled.}
   \begin{tabular}{ccccc}
     \toprule
-    Env & \multicolumn{2}{c}{Ant-v2} & \multicolumn{2}{c}{Humanoid-v2} \\
+    Env & \multicolumn{2}{c}{Ant-v2} & \multicolumn{2}{c}{Hopper-v2} \\
     \midrule
     Metric & Mean & Std. & Mean & Std. \\
-    Expert & 4713.65 & 12.20 & 10344.52 & 20.98 \\
-    BC & 4698.23 & 88.54 & 331.70 & 85.00 \\
+    Expert & 4713.65 & 12.20 & 3772.67 & 1.95 \\
+    BC & 4698.23 & 88.54 & 833.16 & 85.90 \\
     \bottomrule
   \end{tabular}
   \label{tab:p3}

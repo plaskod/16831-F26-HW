@@ -1,6 +1,5 @@
 """Matched offline-BC sweep: predict K expert actions, execute only the first."""
 import argparse
-from datetime import datetime
 import hashlib
 import importlib.metadata
 import json
@@ -13,29 +12,43 @@ import torch
 from tensorboardX import SummaryWriter
 from rob831.agents.bc_agent import BCAgent
 from rob831.infrastructure import pytorch_util as ptu
+from rob831.policies.MLP_policy import MLPPolicySL
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def match_current_action_initialization(actor, seed, layers, width):
+    """Give every K the same initial hidden features and current-action predictor."""
+    with torch.random.fork_rng(devices=[]):
+        torch.manual_seed(seed)
+        reference = MLPPolicySL(actor.ac_dim, actor.ob_dim, layers, width)
+    with torch.no_grad():
+        for actual, expected in zip(actor.mean_net[:-2].parameters(), reference.mean_net[:-2].parameters()):
+            torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+        actor.mean_net[-2].weight[:actor.ac_dim].copy_(reference.mean_net[-2].weight)
+        actor.mean_net[-2].bias[:actor.ac_dim].copy_(reference.mean_net[-2].bias)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--envs', nargs='+', default=['Ant-v2', 'Humanoid-v2'],
+    p.add_argument('--envs', nargs='+', default=['Ant-v2'],
                    choices=[n+'-v2' for n in ('Ant','Humanoid','Walker2d','Hopper','HalfCheetah')])
     p.add_argument('--horizons', nargs='+', type=int, default=[1,2,4,8,16])
     p.add_argument('--seeds', nargs='+', type=int, default=[1,2,3])
     p.add_argument('--updates', type=int, default=1000)
     p.add_argument('--train-batch-size', type=int, default=100)
-    p.add_argument('--eval-batch-size', type=int, default=5000)
-    p.add_argument('--min-rollouts', type=int, default=5)
+    p.add_argument('--eval-episodes', type=int, default=20)
     p.add_argument('--ep-len', type=int, default=1000)
     p.add_argument('--n-layers', type=int, default=3)
     p.add_argument('--size', type=int, default=64)
     p.add_argument('--learning-rate', type=float, default=.005)
-    p.add_argument('--output-dir', type=Path)
+    p.add_argument('--output-dir', type=Path, default=ROOT/'results/action_chunks/main')
     args = p.parse_args()
-    if min(args.horizons + [args.updates,args.train_batch_size,args.eval_batch_size,args.ep_len,args.min_rollouts]) < 1:
+    if min(args.horizons + [args.updates,args.train_batch_size,args.eval_episodes,args.ep_len]) < 1:
         p.error('Counts and horizons must be positive')
-    output = args.output_dir or ROOT/'results/action_chunks'/datetime.now().strftime('%Y%m%d_%H%M%S')
+    if args.eval_episodes < 5 or 1 not in args.horizons:
+        p.error('Use at least five evaluation episodes and include K=1 as the baseline')
+    output = args.output_dir
     output.mkdir(parents=True, exist_ok=False)
     config = vars(args).copy()
     config['output_dir'] = str(output)
@@ -43,6 +56,7 @@ def main():
                   boundary='mask missing targets; no crossing terminal/path boundaries; retain all starts',
                   evaluation_seeds='10000 + 1000 * training_seed + episode_index',
                   execution='replan every step and execute only offset 0',
+                  initialization='Hidden layers and current-action head weights/bias match K=1 per seed',
                   packages={n: importlib.metadata.version(n) for n in ('torch','numpy','gym','mujoco-py')},
                   source_sha256={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()
                                  for f in sorted((ROOT/'hw1/rob831').rglob('*.py'))})
@@ -67,6 +81,7 @@ def main():
                         ob_dim=env.observation_space.shape[0], n_layers=args.n_layers,
                         size=args.size, discrete=False, learning_rate=args.learning_rate,
                         max_replay_buffer_size=1000000, action_chunk_size=horizon))
+                    match_current_action_initialization(agent.actor, seed, args.n_layers, args.size)
                     agent.add_to_replay_buffer(paths)
                     losses = []
                     for step in range(args.updates):
@@ -79,8 +94,8 @@ def main():
                             writer.add_scalar('training/chunk_mse', loss, step)
                     agent.actor.eval()
                     episodes, total_steps = [], 0
-                    while total_steps < args.eval_batch_size or len(episodes) < args.min_rollouts:
-                        eval_seed = 10000 + 1000 * seed + len(episodes)
+                    for episode_index in range(args.eval_episodes):
+                        eval_seed = 10000 + 1000 * seed + episode_index
                         obs = env.reset(seed=eval_seed)
                         rewards = []
                         for _ in range(args.ep_len):

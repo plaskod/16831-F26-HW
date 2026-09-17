@@ -140,7 +140,4 @@ class MLPPolicySL(MLPPolicy):
         loss.backward()
         self.optimizer.step()
 
-        return {
-            # You can add extra logging information here, but keep this line
-            'Training Loss': ptu.to_numpy(loss),
-        }
+        return {'Training Loss': ptu.to_numpy(loss)}
