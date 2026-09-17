@@ -1,0 +1,87 @@
+[
+  {
+    "environment": "Ant-v2",
+    "trajectories": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "observation_dim": 111,
+    "action_dim": 8,
+    "returns": [
+      4701.456542070955,
+      4725.849137768149
+    ],
+    "mean_return": 4713.652839919552,
+    "std_return": 12.196297848597169,
+    "thirty_percent_of_expert": 1414.0958519758656
+  },
+  {
+    "environment": "Humanoid-v2",
+    "trajectories": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "observation_dim": 376,
+    "action_dim": 17,
+    "returns": [
+      10323.53684335947,
+      10365.498659037054
+    ],
+    "mean_return": 10344.517751198262,
+    "std_return": 20.98090783879161,
+    "thirty_percent_of_expert": 3103.3553253594787
+  },
+  {
+    "environment": "Walker2d-v2",
+    "trajectories": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "observation_dim": 17,
+    "action_dim": 6,
+    "returns": [
+      5576.083369847387,
+      5557.608255561441
+    ],
+    "mean_return": 5566.845812704414,
+    "std_return": 9.237557142972946,
+    "thirty_percent_of_expert": 1670.0537438113242
+  },
+  {
+    "environment": "Hopper-v2",
+    "trajectories": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "observation_dim": 11,
+    "action_dim": 3,
+    "returns": [
+      3770.721984267235,
+      3774.618592739105
+    ],
+    "mean_return": 3772.67028850317,
+    "std_return": 1.9483042359352112,
+    "thirty_percent_of_expert": 1131.801086550951
+  },
+  {
+    "environment": "HalfCheetah-v2",
+    "trajectories": 2,
+    "lengths": [
+      1000,
+      1000
+    ],
+    "observation_dim": 17,
+    "action_dim": 6,
+    "returns": [
+      4122.739509128034,
+      4288.81698589772
+    ],
+    "mean_return": 4205.778247512877,
+    "std_return": 83.03873838484287,
+    "thirty_percent_of_expert": 1261.733474253863
+  }
+]

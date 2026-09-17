@@ -1,0 +1,11 @@
+# Python 3.10; a working MuJoCo installation is also required.
+setuptools==80.10.2
+Cython==0.29.37
+numpy==1.25.2
+torch==1.12.1
+gym==0.25.1
+mujoco-py==2.1.2.14
+tensorboard==2.10.0
+tensorboardX==2.5.1
+matplotlib==3.9.4
+protobuf==3.19.6

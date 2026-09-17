@@ -61,8 +61,7 @@
   \end{tabular}
     % \caption{BC vs.\ expert return. Both policies use three hidden layers of 64 tanh units (task-specific input/output dimensions), trained on two supplied expert trajectories (2,000 transitions) per environment. One BC iteration uses 1,000 Adam updates, learning rate 0.005, minibatches of 100, and MSE loss. Evaluation uses \texttt{eval\_batch\_size}=5,000 transitions and \texttt{ep\_len}=1,000, collecting complete episodes until at least 5,000 steps are reached (at least five rollouts; early termination can produce more). Mean and standard deviation over episode returns.}
     \caption{BC vs.\ expert return on Ant-v2 and Hopper-v2.
-Both BC policies are trained on two supplied expert trajectories
-(2,000 transitions). Mean and standard deviation are computed over
+Both BC policies are trained on two expert trajectories (2,000 env transitions). Mean and standard deviation are computed over
 evaluation episode returns. Full architecture, optimization, and evaluation
 settings are given in Appendix~\ref{app:config}.}
   \label{tab:p3}
@@ -89,10 +88,10 @@ settings are given in Appendix~\ref{app:config}.}
     substantially longer prediction horizons while keeping the sweep small.
 
     \item \textbf{Result}: Short prediction horizons gave modest improvements in
-    mean return in both environments. Ant-v2 improved slightly at $K=2$, while
+    mean return in both environments, Figure \ref{fig:prediction-horizon}. Ant-v2 improved slightly at $K=2$, while
     Hopper-v2 achieved its highest mean return at $K=4$. However, performance
     decreased substantially for $K=8$ and $K=16$ in both environments.
-    This suggests that short-horizon future-action prediction can be useful,
+    This suggests that short-horizon prediction can be useful,
     but predicting too far ahead may make the additional targets less useful
     for learning the immediate action used for control.
 \end{itemize}
@@ -135,8 +134,8 @@ executing full action chunks, using delayed policies.
   \centering
   \includegraphics[width=\columnwidth]{figure2.png}
   \caption{DAgger learning curves on Ant-v2 (left) and Hopper-v2 (right).
-  Iteration 0 is the initial BC policy trained on the two supplied expert
-  trajectories (2,000 transitions). At each subsequent DAgger iteration,
+  Iteration 0 is the initial BC policy trained on the two expert
+  trajectories (2,000 env transitions). At each subsequent DAgger iteration,
   at least 1,000 learner transitions are collected, relabeled by the expert,
   and added to the training data. Points show mean evaluation return and
   error bars show one standard deviation across evaluation episodes.
@@ -144,6 +143,9 @@ executing full action chunks, using delayed policies.
   settings are given in Appendix~\ref{app:config}.}
   \label{fig:dagger}
 \end{figure}
+
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
 
 \appendix
 \section{Experimental Configuration}
@@ -166,7 +168,6 @@ Evaluation uses \texttt{eval\_batch\_size}=5,000 and
 evaluation rollouts. Reported error bars are one standard deviation over
 episode returns.
 
-\bibliographystyle{plainnat}
-\bibliography{bibliography}
+
 
 \end{document}
